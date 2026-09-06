@@ -34,7 +34,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2 shrink-0">
           <Clapperboard className="h-7 w-7 text-accent" strokeWidth={2.5} />
           <span className="text-xl font-bold tracking-tight text-accent">
-            RepoFlix
+            RepoCentral
           </span>
         </Link>
         <form onSubmit={handleSubmit} className="ml-auto w-full max-w-xs">

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RepoFlix — The Netflix of GitHub",
+  title: "RepoCentral — GitHub Guide",
   description: "Binge-browse GitHub's best repositories, Netflix-style.",
 };
 

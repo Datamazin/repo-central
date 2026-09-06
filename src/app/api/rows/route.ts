@@ -5,11 +5,13 @@ import type { RepoRow } from "@/lib/github/types";
 
 export async function GET() {
   const rows: RepoRow[] = await Promise.all(
-    HOME_ROWS.map(async (def) => ({
-      id: def.id,
-      title: def.title,
-      repos: await searchRepos(def.query, { sort: def.sort, perPage: 18 }),
-    }))
+    HOME_ROWS.map(async (def) => {
+      const repos = await searchRepos(def.query, {
+        sort: def.sort,
+        perPage: 18,
+      }).catch(() => []);
+      return { id: def.id, title: def.title, repos };
+    })
   );
 
   const nonEmpty = rows.filter((row) => row.repos.length > 0);
