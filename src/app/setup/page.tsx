@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -63,7 +63,9 @@ export default function SetupPage() {
 
   return (
     <>
-      <Navbar />
+      <Suspense fallback={null}>
+        <Navbar />
+      </Suspense>
       <main className="mx-auto max-w-3xl px-4 pt-24 pb-16 sm:px-8">
         <h1 className="text-2xl font-semibold text-white">
           Set up your interests
