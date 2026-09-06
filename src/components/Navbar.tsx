@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, Clapperboard } from "lucide-react";
+import { Search, Clapperboard, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
@@ -48,6 +48,13 @@ export default function Navbar() {
             />
           </div>
         </form>
+        <Link
+          href="/setup"
+          aria-label="Setup interests"
+          className="shrink-0 text-white/70 transition-colors hover:text-white"
+        >
+          <Settings className="h-5 w-5" />
+        </Link>
       </div>
     </header>
   );

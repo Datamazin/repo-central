@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import HeroBanner from "@/components/HeroBanner";
+import FavoritesRow from "@/components/FavoritesRow";
 import RepoRow from "@/components/RepoRow";
 import { searchRepos } from "@/lib/github/client";
 import { HOME_ROWS } from "@/lib/github/rows";
@@ -29,6 +30,7 @@ export default async function Home() {
       </Suspense>
       {heroRepo && <HeroBanner repo={heroRepo} />}
       <main className="relative z-10 -mt-16 pb-16">
+        <FavoritesRow />
         {nonEmptyRows.length === 0 ? (
           <div className="px-8 py-24 text-center text-white/60">
             <p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { GithubRepo } from "@/lib/github/types";
 import RepoCard from "./RepoCard";
@@ -8,9 +8,11 @@ import RepoCard from "./RepoCard";
 export default function RepoRow({
   title,
   repos,
+  action,
 }: {
-  title: string;
+  title: ReactNode;
   repos: GithubRepo[];
+  action?: ReactNode;
 }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -22,9 +24,10 @@ export default function RepoRow({
 
   return (
     <section className="relative py-4">
-      <h2 className="mb-2 px-4 text-lg font-semibold text-white sm:px-8">
-        {title}
-      </h2>
+      <div className="mb-2 flex items-center justify-between px-4 sm:px-8">
+        <h2 className="text-lg font-semibold text-white">{title}</h2>
+        {action}
+      </div>
       <div className="group/row relative">
         <button
           aria-label="Scroll left"
