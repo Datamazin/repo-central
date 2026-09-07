@@ -9,6 +9,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const languages = searchParams.get("languages")?.split(",").filter(Boolean) ?? [];
   const topics = searchParams.get("topics")?.split(",").filter(Boolean) ?? [];
+  const terms = searchParams.get("terms")?.split(",").filter(Boolean) ?? [];
 
   // GitHub's search API doesn't support OR-ing multiple values for a single
   // qualifier (e.g. language:A OR language:B silently matches nothing), so
@@ -16,6 +17,7 @@ export async function GET(request: Request) {
   const queries = [
     ...languages.map((lang) => `language:${lang} stars:>100`),
     ...topics.map((topic) => `topic:${topic} stars:>100`),
+    ...terms.map((term) => `${term} in:name,description,topics stars:>50`),
   ].slice(0, MAX_QUERIES);
 
   if (queries.length === 0) {

@@ -22,6 +22,7 @@ export default function FavoritesRow() {
     const params = new URLSearchParams();
     if (prefs.languages.length) params.set("languages", prefs.languages.join(","));
     if (prefs.topics.length) params.set("topics", prefs.topics.join(","));
+    if (prefs.terms.length) params.set("terms", prefs.terms.join(","));
 
     fetch(`/api/favorites?${params}`)
       .then((res) => (res.ok ? res.json() : { repos: [] }))

@@ -1,6 +1,7 @@
 export interface UserPreferences {
   languages: string[];
   topics: string[];
+  terms: string[];
 }
 
 const STORAGE_KEY = "repocentral:preferences";
@@ -10,9 +11,16 @@ export function getPreferences(): UserPreferences | null {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as UserPreferences;
-    if (parsed.languages?.length === 0 && parsed.topics?.length === 0) return null;
-    return parsed;
+    const parsed = JSON.parse(raw) as Partial<UserPreferences>;
+    const prefs: UserPreferences = {
+      languages: parsed.languages ?? [],
+      topics: parsed.topics ?? [],
+      terms: parsed.terms ?? [],
+    };
+    if (!prefs.languages.length && !prefs.topics.length && !prefs.terms.length) {
+      return null;
+    }
+    return prefs;
   } catch {
     return null;
   }
