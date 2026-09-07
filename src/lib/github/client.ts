@@ -62,6 +62,28 @@ export async function getLanguages(
   return data ?? {};
 }
 
+interface WeeklyCommitActivity {
+  total: number;
+  week: number;
+  days: number[];
+}
+
+export async function getCommitActivity(
+  owner: string,
+  repo: string
+): Promise<number[] | null> {
+  try {
+    const data = await ghFetch<WeeklyCommitActivity[]>(
+      `/repos/${owner}/${repo}/stats/commit_activity`,
+      3600
+    );
+    if (!Array.isArray(data) || data.length === 0) return null;
+    return data.map((week) => week.total);
+  } catch {
+    return null;
+  }
+}
+
 export async function getReadme(owner: string, repo: string): Promise<string | null> {
   const res = await fetch(`${API_BASE}/repos/${owner}/${repo}/readme`, {
     headers: { ...authHeaders(), Accept: "application/vnd.github.raw+json" },
@@ -189,10 +211,11 @@ async function highlight(code: string, lang: string): Promise<string> {
 export async function getRepoDetail(owner: string, repo: string): Promise<RepoDetail | null> {
   const base = await getRepo(owner, repo);
   if (!base) return null;
-  const [readme, languages, files] = await Promise.all([
+  const [readme, languages, files, commitActivity] = await Promise.all([
     getReadme(owner, repo),
     getLanguages(owner, repo),
     getCodeSnippets(owner, repo, base.default_branch),
+    getCommitActivity(owner, repo),
   ]);
-  return { ...base, readme, languages, files };
+  return { ...base, readme, languages, files, commitActivity };
 }

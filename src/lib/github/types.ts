@@ -37,4 +37,5 @@ export interface RepoDetail extends GithubRepo {
   readme: string | null;
   languages: Record<string, number>;
   files: RepoFilePreview[];
+  commitActivity: number[] | null;
 }

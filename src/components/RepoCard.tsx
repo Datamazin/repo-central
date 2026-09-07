@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import { Star, GitFork, Code2, Loader2 } from "lucide-react";
+import { Star, GitFork, Code2, Loader2, Activity } from "lucide-react";
 import type { GithubRepo, RepoDetail } from "@/lib/github/types";
 import { LANGUAGE_COLORS } from "@/lib/languageColors";
 
@@ -42,6 +42,8 @@ export default function RepoCard({ repo }: { repo: GithubRepo }) {
 
   const thumbnail = `https://opengraph.githubassets.com/1/${repo.full_name}`;
   const snippet = detail?.files?.[0];
+  const commitActivity = detail?.commitActivity;
+  const maxCommits = commitActivity ? Math.max(...commitActivity, 1) : 0;
 
   return (
     <div
@@ -119,6 +121,27 @@ export default function RepoCard({ repo }: { repo: GithubRepo }) {
               </p>
             )}
           </div>
+
+          {!loading && commitActivity && (
+            <div className="mt-2 rounded bg-black/60 p-2">
+              <div className="mb-1 flex items-center gap-1 text-[10px] uppercase tracking-wide text-white/40">
+                <Activity className="h-3 w-3" />
+                Commit Activity
+              </div>
+              <div className="flex h-8 items-end gap-px">
+                {commitActivity.map((total, i) => (
+                  <div
+                    key={i}
+                    title={`${total} commit${total === 1 ? "" : "s"}`}
+                    className="flex-1 rounded-t-sm bg-accent/70"
+                    style={{
+                      height: `${Math.max((total / maxCommits) * 100, total > 0 ? 6 : 0)}%`,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
